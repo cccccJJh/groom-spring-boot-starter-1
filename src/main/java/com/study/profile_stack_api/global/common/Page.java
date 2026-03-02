@@ -1,12 +1,15 @@
 package com.study.profile_stack_api.global.common;
 
+import com.study.profile_stack_api.domain.techstack.entity.TechStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Page<T> {
     private List<T> content;
     private int page;
@@ -17,5 +20,6 @@ public class Page<T> {
     private boolean last;
     private boolean hasPrevious;
     private boolean hasNext;
+
 }
 
