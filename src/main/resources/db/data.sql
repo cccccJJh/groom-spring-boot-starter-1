@@ -1,6 +1,6 @@
 -- 회원 데이터 (비밀번호는 BCrypt로 인코딩된 "password123")
 INSERT INTO member (username, password, role) VALUES
-                                                  ('javakim', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'USER'),
+                                                  ('javakim', '$2a$10$eds6KflEti2nym/ig9EsCeNRF0VFcPGNiqyjKj3moGK2KtJ/ADXuW', 'USER'),
                                                   ('reactlee', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'USER'),
                                                   ('fullpark', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'USER');
 

@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.web.servlet.function.RequestPredicates.headers;
+
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 설정을 활성화합니다.
 public class SecurityConfig {
@@ -43,7 +45,8 @@ public class SecurityConfig {
                         //임시용~~~~~~~~~~~₩
                         .authorizeHttpRequests(auth -> auth
                                 .anyRequest().permitAll()
-                );
+                )
+            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         return http.build();
     }

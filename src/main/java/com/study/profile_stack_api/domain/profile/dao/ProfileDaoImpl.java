@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Repository("ProfileDaoImpl")
 public class ProfileDaoImpl implements ProfileDao {
     private final JdbcTemplate jdbcTemplate;
 
@@ -25,22 +25,24 @@ public class ProfileDaoImpl implements ProfileDao {
     @Override
     public Profile save(Profile profile) {
         String sql = """          
-        INSERT INTO profile (name, email, bio, position, career_years, github_url, blog_url, created_at, updated_at) 
-        VALUES(?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+        INSERT INTO profile (name,member_id, email, bio, position, career_years, github_url, blog_url, created_at, updated_at) 
+        VALUES(?,?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
         """ ;
 
         //키홀더 : auto-generated ID
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            //PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setString(1, profile.getName());
-            ps.setString(2, profile.getEmail());
-            ps.setString(3, profile.getBio());
-            ps.setString(4, profile.getPosition().name());
-            ps.setInt(5, profile.getCareerYears());
-            ps.setString(6, profile.getGithubUrl());
-            ps.setString(7, profile.getBlogUrl());
+            ps.setLong(2, profile.getMemberId());
+            ps.setString(3, profile.getEmail());
+            ps.setString(4, profile.getBio());
+            ps.setString(5, profile.getPosition().name());
+            ps.setInt(6, profile.getCareerYears());
+            ps.setString(7, profile.getGithubUrl());
+            ps.setString(8, profile.getBlogUrl());
             return ps;
         }, keyHolder);
 
@@ -126,7 +128,7 @@ public class ProfileDaoImpl implements ProfileDao {
         Long totalElements = count();
         // 전체 데이터가 0건이면 빈 페이지 반환
         if (totalElements == null || totalElements == 0) {
-            return new Page<>(List.of(), page, size, 0);
+            return new Page<>(List.of(), page, size, 0L, 0, true, true, false, false);
         }
 
         //해당 페이지 데이터 조회
@@ -151,6 +153,7 @@ public class ProfileDaoImpl implements ProfileDao {
     private final RowMapper<Profile> profileRowMapper = (rs, rowNum) -> {
       Profile profile = new Profile();
       profile.setId(rs.getLong("id"));
+      profile.setMemberId(rs.getLong("member_id"));
       profile.setName(rs.getString("name"));
       profile.setEmail(rs.getString("email"));
       profile.setBio(rs.getString("bio"));

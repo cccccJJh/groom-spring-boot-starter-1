@@ -64,6 +64,12 @@ public class AuthService {
         Member user = userDao.findByUserName(request.getUsername())
                 .orElseThrow(()-> new ApiException(ErrorCode.PROFILE_NOT_FOUND));
 
+        System.out.println("입력받은 비번: [" + request.getPassword() + "]");
+        System.out.println("입력받은 비번 해시: [" + passwordEncoder.encode(request.getPassword()) + "]");
+        System.out.println("DB에서 가져온 해시: [" + user.getPassword() + "]");
+        System.out.println("진짜 password123 해시: " + passwordEncoder.encode("password123"));
+        System.out.println("DB 해시 길이: " + (user.getPassword() != null ? user.getPassword().length() : "null"));
+
         //비밀번호 일치 확인
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");

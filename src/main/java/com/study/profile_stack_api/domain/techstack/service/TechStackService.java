@@ -30,7 +30,6 @@ public class TechStackService {
             throw new ProfileNotFoundException(profileId);
         }
 
-
         //dto -> entitiy
         TechStack techStack = new TechStack(
             null, //id

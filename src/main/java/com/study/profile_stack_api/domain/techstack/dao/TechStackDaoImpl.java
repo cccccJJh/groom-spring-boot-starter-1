@@ -15,8 +15,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
-@Repository// 스프링 빈으로 등록
-
+@Repository("TechStackDaoImpl")// 스프링 빈으로 등록
 public class TechStackDaoImpl implements TechStackDao {
     private final JdbcTemplate jdbcTemplate;
 
@@ -40,6 +39,7 @@ public class TechStackDaoImpl implements TechStackDao {
             ps.setString(3, techStack.getCategory().name());
             ps.setString(4, techStack.getProficiency().name());
             ps.setInt(5, techStack.getYearsOfExp());
+
             return ps;
         }, keyHolder);
 
